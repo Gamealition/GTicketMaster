@@ -63,8 +63,8 @@ public class Slack {
     private static String generateMessage(String message, String username, String world, double x , double z){
 
         String m = "{";
-        m+= "\"text\":\""+message+" "+generateDynmapURL(world,x,z)+"\",";
-        m+= "\"username\":\""+username+"\",";
+        m+= "\"text\":\""+username+" filed a ticket: "+message+" "+generateDynmapURL(world,x,z)+"\",";
+        m+= "\"username\":\"Ticket Master Bot\",";
         m+= "\"icon_url\":\"https://minotar.net/avatar/"+username+"/100.png\"";
         m+= "}";
 
