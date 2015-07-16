@@ -16,3 +16,21 @@ TicketMaster was made to simplify and organize the interaction between players a
 
 ## BukkitDev Page
 <http://dev.bukkit.org/bukkit-plugins/ticketmaster/>
+
+
+## Slack integration
+
+ This plugin now has slack integration using webhooks
+ Also has basic dynmap integration by adding the dymap url into the config
+
+ **Setup**
+
+ * Go to http://<TEAM Name>.slack.com/services/new
+ * Scroll to Add a Incoming WebHooks
+ * Choose Channel for the bot to go to
+ * Make a note of the hook url it will look like https://hooks.slack.com/services/********/********/*****************
+ * Edit the config file with the hook url
+
+
+
+

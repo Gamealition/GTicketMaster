@@ -1,5 +1,6 @@
 package me.rafaskb.ticketmaster;
 
+import me.rafaskb.ticketmaster.utils.ConfigLoader;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,6 +20,7 @@ public class TicketMaster extends JavaPlugin {
 
 		// Load lang.yml
 		LangConfig.reloadConfig();
+        ConfigLoader.reloadConfig();
 
 		// Open database
 		DatabaseManager.open();
@@ -41,6 +43,7 @@ public class TicketMaster extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
+        ConfigLoader.saveConfig();
 		DatabaseManager.close();
 		Bukkit.getScheduler().cancelTasks(this);
 		instance = null;

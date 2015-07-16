@@ -1,0 +1,108 @@
+# General messages
+prefix_normal: "&2[TicketMaster] "
+prefix_error: "&4[TicketMaster] "
+error_message: "&cYou cannot use this command!"
+ticket_not_found: "&cCould not find ticket <id>!"
+ticket_management_no_perms: "&cYou do not have permission to manage this ticket!"
+cannot_run_from_console: "&cYou cannot run this command from the console!"
+usage_information: "&aUsage information:
+    \n  &aTo request staff assistance: &e/ticket new <request>
+    \n  &aTo view your pending tickets: &e/tickets
+    \n  &aTo see all available commands: &e/ticket help"
+unknown_command: "&cCommand not recognized. Type &e/ticket help&c for a list of available commands"
+reload_message: "&aThe plugin has been reloaded successfully!"
+broadcast_pending_tickets: "&6<amount> ticket(s)&e waiting for your assistance. Type&6 /tickets"
+
+# New command
+new_command_usage: "&cUsage: /ticket new &o<your request here>"
+new_command_success: "&aSuccessfully created ticket &e<id>&a. A staff member will review your request soon"
+new_command_failure: "&cCould not create a new ticket"
+new_command_cooldown: "&cPlease wait a few seconds before submitting a new ticket"
+new_ticket_broadcast: "&aTicket &e<id>&a has been submitted by &3<submitter>"
+
+# Status command
+status_command_usage: "&cUsage: /ticket status <ticket ID> <new status>
+    \n        &cValid statuses:
+    \n            &ePending  &cWaiting for staff moderation
+    \n            &eOnHold  &cReviewed, but put on second plan
+    \n            &eClaimed  &cA staff is responsible for it
+    \n            &eClosed  &cTicket resolved"
+status_command_success: "&aChanged ticket status to &e<status>"
+status_command_failure: "&cCould not change ticket status!"
+
+# Priority command
+priority_command_usage: "&cUsage: /ticket priority <ticket ID> <new priority>
+    \n        &cValid statuses: &eLow&7, &eNormal&7, &eHigh&7 and &eCritical"
+priority_command_success: "&aChanged ticket priority to &e<priority>"
+priority_command_failure: "&cCould not change ticket priority!"
+elevate_command_usage: "&cUsage: /ticket elevate <ticket ID>"
+lower_command_usage: "&cUsage: /ticket lower <ticket ID>"
+
+# Teleport command
+teleport_command_usage: "&cUsage: /ticket tp <ticket ID>"
+teleport_command_success: "&aTeleported to ticket &e<id>"
+teleport_command_failure: "&cCould not teleported to ticket &e<id>"
+
+# Comment command
+comment_command_usage: "&cUsage: /ticket comment <ticket ID> <message>"
+comment_command_success: "&aComment added to ticket &e<id>"
+comment_command_failure: "&cCould not add comment to ticket &e<id>"
+comment_command_closed: "&cYou cannot comment on a closed ticket"
+comment_command_cooldown: "&cPlease wait a few seconds before submitting a new comment"
+
+# Check command
+check_command_usage: "&cUsage: /ticket check <ticket ID>"
+check_command_failure: "&cCould not check ticket &e<id>"
+
+# Delete command
+delete_command_usage: "&cUsage: /ticket delete <ticket ID>"
+delete_command_success: "&aSuccessfully deleted ticket &e<id>"
+delete_command_failure: "&cCould not delete ticket &e<id>"
+
+# List command
+list_command_usage: "&cUsage: /ticket list &o[status]
+    \n        &cValid statuses:
+    \n            &ePending  &cWaiting for staff moderation
+    \n            &eOnHold  &cReviewed, but put on second plan
+    \n            &eClaimed  &cA staff is responsible for it
+    \n            &eClosed  &cTicket resolved
+    \n        &cBy default, &oPending&c and &oOnHold&c tickets will be listed"
+list_command_no_tickets_user: "&cYou have no pending tickets"
+list_command_no_tickets: "&cCould not find any ticket to list"
+list_command_header: "&7--- [ &6Tickets &7] ---"
+
+# Claim command
+claim_command_usage: "&cUsage: /ticket claim <ticket ID>"
+claim_command_closed: "&cYou cannot claim a closed ticket!"
+claim_command_success: "&aYou have claimed ticket &e<id>"
+claim_command_failure: "&cCould not claim ticket <id>"
+
+# Close command
+close_command_usage: "&cUsage: /ticket close <ticket ID>"
+close_command_closed: "&cThis ticket is already closed!"
+close_command_success: "&aYou have closed ticket &e<id>"
+close_command_failure: "&cCould not close ticket <id>"
+
+# Reopen command
+reopen_command_usage: "&cUsage: /ticket reopen <ticket ID>"
+reopen_command_not_closed: "&cThis ticket is not closed!"
+reopen_command_success: "&aYou have reopened ticket &e<id>"
+reopen_command_failure: "&cCould not reopen ticket <id>"
+
+# Help command
+help_command_header: "&6Available commands:"
+help_command_description: "&2/ticket &ahelp &eList all available commands"
+check_command_description: "&2/ticket &acheck &3<id> &eCheck ticket's information"
+list_command_description: "&2/ticket &alist &3[status] &eList all tickets with the given status"
+new_command_description: "&2/ticket &anew &3<request> &eSubmit a request for staff assistance"
+close_command_description: "&2/ticket &aclose &3<id> [reason] &eClose a ticket. Reason is optional"
+reopen_command_description: "&2/ticket &areopen &3<id> &eReopen a closed ticket"
+claim_command_description: "&2/ticket &aclaim &3<id> &eClaim a ticket"
+delete_command_description: "&2/ticket &adelete &3<id> &eDelete a ticket, cannot be undone"
+comment_command_description: "&2/ticket &acomment &3<id> <message> &eAttach a comment to a ticket"
+teleport_command_description: "&2/ticket &atp &e<id> &eTeleport to where the ticket was created"
+status_command_description: "&2/ticket &astatus &e<id> <status> &eChange a ticket status"
+priority_command_description: "&2/ticket &apriority &e<id> <priority> &eChange a ticket priority"
+elevate_command_description: "&2/ticket &aelevate &e<id> &eMake the ticket one priority higher"
+lower_command_description: "&2/ticket &alower &e<id> &eMake the ticket one priority lower"
+reload_command_description: "&2/ticket &areload &eReload the configuration files"

@@ -1,0 +1,54 @@
+name: TicketMaster
+main: me.rafaskb.ticketmaster.TicketMaster
+version: 1.0.5
+author: RafaSKB
+description: Ticket manager
+
+permissions:
+    ticketmaster.user.basic:
+        description: Can create new tickets, check own tickets and close own tickets.
+        default: true
+        children:
+            ticketmaster.user.create: true
+            ticketmaster.user.manage: true
+    ticketmaster.user.create:
+        description: Can create new tickets.
+    ticketmaster.user.manage:
+        description: Can check, close and comment own tickets.
+    ticketmaster.helper.basic:
+        description: Can see and manage tickets with default priority or lower, and teleport to them.
+        children:
+            ticketmaster.helper.notify: true
+            ticketmaster.helper.teleport: true
+            ticketmaster.helper.status: true
+            ticketmaster.priority.normal: true
+    ticketmaster.helper.notify:
+        description: Receives notifications in chat when there are pending tickets to resolve.
+    ticketmaster.helper.teleport:
+        description: Can use the command /ticket tp.
+    ticketmaster.helper.status:
+        description: Can change tickets statuses.
+    ticketmaster.helper.delete:
+        description: Can delete tickets.
+    ticketmaster.priority.low:
+        description: Can see and manage tickets with low priority.
+    ticketmaster.priority.normal:
+        description: Can see and manage tickets with normal and lower priorities.
+        children:
+            ticketmaster.priority.low: true
+    ticketmaster.priority.high:
+        description: Can see and manage tickets with high and lower priorities.
+        children:
+            ticketmaster.priority.normal: true
+    ticketmaster.priority.critical:
+        description: Can see and manage all tickets with critical and lower priorities.
+        children:
+            ticketmaster.priority.high: true
+    ticketmaster.reload:
+        description: Can use the command /ticket reload
+
+commands:
+    ticket:
+        description: Create and manage tickets.
+    tickets:
+        description: Lists tickets

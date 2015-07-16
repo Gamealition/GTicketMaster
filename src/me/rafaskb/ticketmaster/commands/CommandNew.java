@@ -3,6 +3,8 @@ package me.rafaskb.ticketmaster.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.rafaskb.ticketmaster.integrations.Slack;
+import me.rafaskb.ticketmaster.utils.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -10,10 +12,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import me.rafaskb.ticketmaster.TicketMaster;
 import me.rafaskb.ticketmaster.models.Ticket;
 import me.rafaskb.ticketmaster.sql.Controller;
-import me.rafaskb.ticketmaster.utils.Lang;
-import me.rafaskb.ticketmaster.utils.LangMacro;
-import me.rafaskb.ticketmaster.utils.Perm;
-import me.rafaskb.ticketmaster.utils.Utils;
 
 public class CommandNew extends Command {
 	private static final int INDEX_MESSAGE_START = 1;
@@ -62,6 +60,19 @@ public class CommandNew extends Command {
 			
 			// Broadcast new ticket to online helpers
 			broadcastTicketCreation(ticket);
+
+
+            //if slack intergration enabled send to slack channel
+
+            if(ConfigLoader.isSlackEnable()){
+                Slack.sendMessage(ticket.getMessage(),
+                        ticket.getSubmitter(),
+                        ticket.getTicketLocation().getWorldName(),
+                        ticket.getTicketLocation().getX(),
+                        ticket.getTicketLocation().getZ()
+                        );
+            }
+
 			
 			//Start cooldown reduction
 			new BukkitRunnable() {

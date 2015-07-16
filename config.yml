@@ -1,0 +1,6 @@
+#config for ticketmaster
+enableSlackintergration: true
+slackwebhookURL: "https://hooks.slack.com/services/*********/*********/**********************"
+dynmapurl: "http://your.url.com:8123"
+
+
