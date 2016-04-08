@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>me.rafaskb.ticketmaster</groupId>
+    <artifactId>TicketMaster</artifactId>
+    <version>1.0.7</version>
+
+    <developers>
+        <developer>
+            <name>Rafa Skoberg</name>
+            <url>https://github.com/rafaskb</url>
+        </developer>
+    </developers>
+
+    <contributors>
+        <contributor>
+            <name>justin393</name>
+            <email>jjbattles393@hughes.net</email>
+            <url>https://github.com/justin393</url>
+        </contributor>
+
+        <contributor>
+            <name>Rob Rotheram</name>
+            <email>robrotheram@gmail.com</email>
+            <url>https://github.com/robrotheram</url>
+        </contributor>
+
+        <contributor>
+            <name>Roy Curtis</name>
+            <email>roy.adrian.curtis+github@gmail.com</email>
+            <url>https://github.com/RoyCurtis</url>
+        </contributor>
+    </contributors>
+
+    <repositories>
+        <!-- For Spigot/Bukkit/CraftBukkit snapshots -->
+        <repository>
+            <id>spigot-snapshots</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.9.2-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
