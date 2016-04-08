@@ -69,7 +69,8 @@ public class CommandNew extends Command {
                         ticket.getSubmitter(),
                         ticket.getTicketLocation().getWorldName(),
                         ticket.getTicketLocation().getX(),
-                        ticket.getTicketLocation().getZ()
+                        ticket.getTicketLocation().getZ(),
+                        ticket.getId()
                         );
             }
 

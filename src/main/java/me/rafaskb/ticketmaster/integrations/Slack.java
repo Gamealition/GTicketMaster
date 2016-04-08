@@ -15,14 +15,14 @@ import java.util.Map;
 public class Slack {
 
 
-    public static void sendMessage(String message, String username, String world, double x , double z){
+    public static void sendMessage(String message, String username, String world, double x , double z, int id){
 
         URL url;
         try {
             url = new URL(ConfigLoader.getSlackwebhookurl());
 
         Map<String,Object> params = new LinkedHashMap<>();
-        params.put("payload", generateMessage(message,username,world,x,z) );
+        params.put("payload", generateMessage(message,username,world,x,z,id) );
 
         StringBuilder postData = new StringBuilder();
         try {
@@ -42,13 +42,15 @@ public class Slack {
             conn.setDoOutput(true);
             conn.getOutputStream().write(postDataBytes);
 
-            Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-            String response = "";
-            for ( int c = in.read(); c != -1; c = in.read() ) {
-                response +=(char) c;
-            }
+            if (ConfigLoader.isSlackDebug()) {
+                Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+                String response = "";
+                for (int c = in.read(); c != -1; c = in.read()) {
+                    response += (char) c;
+                }
 
-            TicketMaster.getInstance().getLogger().info("message from Slack server: "+response);
+                TicketMaster.getInstance().getLogger().info("message from Slack server: " + response);
+            }
 
         } catch (IOException e) {
             TicketMaster.getInstance().getLogger().warning("Ticket Master Slack integration IO error:"+e.getMessage());
@@ -60,10 +62,10 @@ public class Slack {
     }
 
 
-    private static String generateMessage(String message, String username, String world, double x , double z){
+    private static String generateMessage(String message, String username, String world, double x , double z, int id){
 
         String m = "{";
-        m+= "\"text\":\""+username+" filed a ticket: "+message+" "+generateDynmapURL(world,x,z)+"\",";
+        m+= "\"text\":\""+username+" filed ticket #"+id+": "+message+" "+generateDynmapURL(world,x,z)+"\",";
         m+= "\"username\":\"Ticket Master Bot\",";
         m+= "\"icon_url\":\"https://minotar.net/avatar/"+username+"/100.png\"";
         m+= "}";

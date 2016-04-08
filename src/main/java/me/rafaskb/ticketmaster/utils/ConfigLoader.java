@@ -15,6 +15,14 @@ public class ConfigLoader {
         ConfigLoader.slackEnable = slackEnable;
     }
 
+    public static boolean isSlackDebug() {
+        return slackDebug;
+    }
+
+    public static void setSlackDebug(boolean slackDebug) {
+        ConfigLoader.slackDebug = slackDebug;
+    }
+
     public static String getDynmapurl() {
         return dynmapurl;
     }
@@ -32,6 +40,7 @@ public class ConfigLoader {
     }
 
     private static boolean slackEnable;
+    private static boolean slackDebug;
 
 
 
@@ -44,6 +53,7 @@ public class ConfigLoader {
         setDynmapurl(TicketMaster.getInstance().getConfig().getString("dynmapurl"));
         setSlackwebhookurl(TicketMaster.getInstance().getConfig().getString("slackwebhookURL"));
         setSlackEnable(TicketMaster.getInstance().getConfig().getBoolean("enableSlackintergration"));
+        setSlackDebug(TicketMaster.getInstance().getConfig().getBoolean("enableSlackDebug"));
 
 
     }
