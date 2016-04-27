@@ -42,14 +42,15 @@ public class Slack {
             conn.setDoOutput(true);
             conn.getOutputStream().write(postDataBytes);
 
-            if (ConfigLoader.isSlackDebug()) {
-                Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-                String response = "";
-                for (int c = in.read(); c != -1; c = in.read()) {
-                    response += (char) c;
-                }
+            // Apparently necessary for post to actually go through
+            Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+            String response = "";
+            for (int c = in.read(); c != -1; c = in.read()) {
+                response += (char) c;
+            }
 
-                TicketMaster.getInstance().getLogger().info("message from Slack server: " + response);
+            if (ConfigLoader.isSlackDebug()) {
+                TicketMaster.getInstance().getLogger().info("Message from Slack server: " + response);
             }
 
         } catch (IOException e) {
@@ -70,7 +71,9 @@ public class Slack {
         m+= "\"icon_url\":\"https://minotar.net/avatar/"+username+"/100.png\"";
         m+= "}";
 
-        System.out.println(m);
+        if (ConfigLoader.isSlackDebug()) {
+            TicketMaster.getInstance().getLogger().info("Raw outgoing Slack JSON: " + m);
+        }
         return m;
     }
 
