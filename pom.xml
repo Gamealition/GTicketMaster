@@ -4,46 +4,60 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- Project properties -->
     <groupId>me.rafaskb.ticketmaster</groupId>
     <artifactId>TicketMaster</artifactId>
     <version>1.0.8</version>
 
+    <description>
+        Handles player support requests using tickets
+    </description>
+
+    <!-- Project metadata -->
+    <licenses>
+        <license>
+            <name>Apache 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
     <developers>
+        <!-- Original developer of TicketMaster -->
         <developer>
             <name>Rafa Skoberg</name>
             <url>https://github.com/rafaskb</url>
         </developer>
-    </developers>
-
-    <contributors>
-        <contributor>
+        <!-- Developer of TicketMaster fork -->
+        <developer>
             <name>justin393</name>
             <email>jjbattles393@hughes.net</email>
             <url>https://github.com/justin393</url>
-        </contributor>
-
-        <contributor>
+        </developer>
+        <!-- Initially added Slack support -->
+        <developer>
             <name>Rob Rotheram</name>
             <email>robrotheram@gmail.com</email>
             <url>https://github.com/robrotheram</url>
-        </contributor>
-
-        <contributor>
+        </developer>
+        <!-- Current maintainer of GTicketMaster fork -->
+        <developer>
             <name>Roy Curtis</name>
             <email>roy.adrian.curtis+github@gmail.com</email>
             <url>https://github.com/RoyCurtis</url>
-        </contributor>
-    </contributors>
+        </developer>
+    </developers>
 
     <repositories>
-        <!-- For Spigot/Bukkit/CraftBukkit snapshots -->
+        <!-- For Spigot/Bukkit/CraftBukkit -->
         <repository>
-            <id>spigot-snapshots</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/public/</url>
         </repository>
     </repositories>
 
     <dependencies>
+        <!-- Spigot + Bukkit API -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
@@ -52,16 +66,32 @@
         </dependency>
     </dependencies>
 
+    <!-- Enforce Unicode when compiling Java -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <build>
         <plugins>
+            <!-- Specifies minimum Java version and Unicode for compile and runtime -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.3</version>
-
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+
+            <!-- Ensure resource files are processed as Unicode -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
         </plugins>
