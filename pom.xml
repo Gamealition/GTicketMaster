@@ -72,6 +72,14 @@
     </properties>
 
     <build>
+        <!-- Replaces tokens like "${project.version}" in plugin.yml -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
         <plugins>
             <!-- Specifies minimum Java version and Unicode for compile and runtime -->
             <plugin>

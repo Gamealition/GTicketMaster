@@ -1,8 +1,8 @@
-name: TicketMaster
-main: me.rafaskb.ticketmaster.TicketMaster
-version: 1.0.8
-author: RafaSKB
-description: Ticket manager
+name:        ${project.artifactId}
+version:     ${project.version}
+description: ${project.description}
+authors:     [RafaSKB, justin393, Robrotheram, RoyCurtis]
+main:        me.rafaskb.ticketmaster.TicketMaster
 
 permissions:
     ticketmaster.user.basic:
