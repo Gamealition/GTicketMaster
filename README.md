@@ -20,7 +20,7 @@ GTicketMaster is a downstream fork of @justin393's [TicketMaster][TM], with Slac
 
 ## Slack integration
 
-![Example screenshot of new tickets appearing in Slack](http://i.imgur.com/zAkdGt8.png)
+![Example screenshot of ticket notifications in Slack](http://i.imgur.com/ErnMjfB.png)
 
 GTicketMaster can integrate with your [Slack][SLACK] team, using [incoming WebHooks][WEBHOOKS].
 This integration works by announcing new tickets to a given channel. It shows the player's head and
