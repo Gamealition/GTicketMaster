@@ -18,9 +18,9 @@ public class TicketMaster extends JavaPlugin {
 	public void onEnable() {
 		instance = this;
 
-		// Load lang.yml
+		// Load lang and config
 		LangConfig.reloadConfig();
-        ConfigLoader.reloadConfig();
+		ConfigLoader.reloadConfig();
 
 		// Open database
 		DatabaseManager.open();
@@ -43,7 +43,6 @@ public class TicketMaster extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
-        ConfigLoader.saveConfig();
 		DatabaseManager.close();
 		Bukkit.getScheduler().cancelTasks(this);
 		instance = null;
