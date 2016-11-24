@@ -6,7 +6,7 @@
 
     <!-- Project properties -->
     <groupId>me.rafaskb.ticketmaster</groupId>
-    <artifactId>TicketMaster</artifactId>
+    <artifactId>GTicketMaster</artifactId>
     <version>1.11-1.0.9</version>
 
     <description>
