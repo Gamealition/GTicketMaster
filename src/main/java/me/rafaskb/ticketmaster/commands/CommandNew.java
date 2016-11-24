@@ -65,7 +65,6 @@ public class CommandNew extends Command {
 
 			// Broadcast to slack
 			Slack.notifyNewTicket(ticket);
-
 			
 			//Start cooldown reduction
 			new BukkitRunnable() {

@@ -40,27 +40,40 @@ public class Slack
 
             text = String.format(combined, parts);
         }
+
+        void setText(String msg, Object... parts)
+        {
+            text = String.format(msg, parts);
+        }
     }
 
     public static void notifyNewTicket(Ticket ticket)
     {
         SlackMessage msg  = new SlackMessage();
+        int          id   = ticket.getId();
         String[]     text = new String[]
         {
             "*%s* created ticket *#%d*:",
             "> _%s_",
-            "...in world *`%s`* at *`%d %d %d`*" + generateDynmapURL(ticket)
+            "...in world *`%s`* at *`%d %d %d`*" + generateDynmapURL(ticket),
+            "",
+            "• _To claim:_ `/ticket claim %d`",
+            "• _To teleport to:_ `/ticket tp %d`",
+            "• _To comment:_ `/ticket comment %d <message>`",
+            "• _To close:_ `/ticket close %d`",
+            "• _There are %d open tickets (including this one)_"
         };
 
         msg.setIcon( ticket.getSubmitter() );
         msg.setText(text,
-            ticket.getSubmitter(),
-            ticket.getId(),
+            ticket.getSubmitter(), id,
             ticket.getMessage(),
             ticket.getTicketLocation().getWorldName(),
             (int) ticket.getTicketLocation().getX(),
             (int) ticket.getTicketLocation().getY(),
-            (int) ticket.getTicketLocation().getZ()
+            (int) ticket.getTicketLocation().getZ(),
+            id, id, id, id,
+            Controller.countPendingTicketsWithPriority(TicketPriority.NORMAL)
         );
 
         sendMessage(msg);
