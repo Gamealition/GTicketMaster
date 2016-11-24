@@ -8,7 +8,7 @@ slack:
   # If true, print responses from Slack to console (default: false)
   debug: false
   # Slack Incoming WebhookURL; found by expanding "Setup Instructions" in the webhook's config page
-  webhookURL: "https://hooks.slack.com/services/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"
+  webhookURL: "https://hooks.slack.com/services/xxx/yyy/zzz"
   # URL to use for Dynmap linking, including port. Leave blank if you don't have Dynmap.
   # (default: "http://your.url.com:8123")
   dynmapURL: "http://your.url.com:8123"
