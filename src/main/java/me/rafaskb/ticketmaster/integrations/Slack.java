@@ -3,6 +3,8 @@ package me.rafaskb.ticketmaster.integrations;
 import com.google.gson.Gson;
 import me.rafaskb.ticketmaster.TicketMaster;
 import me.rafaskb.ticketmaster.models.Ticket;
+import me.rafaskb.ticketmaster.models.TicketPriority;
+import me.rafaskb.ticketmaster.sql.Controller;
 import me.rafaskb.ticketmaster.utils.ConfigLoader;
 
 import java.io.InputStream;
@@ -75,6 +77,67 @@ public class Slack
             id, id, id, id,
             Controller.countPendingTicketsWithPriority(TicketPriority.NORMAL)
         );
+
+        sendMessage(msg);
+    }
+
+    public static void notifyClaimTicket(int id, String who, String submitter)
+    {
+        SlackMessage msg = new SlackMessage();
+
+        msg.setIcon(who);
+
+        if ( who.equals(submitter) )
+            msg.setText("*%s* claimed their own ticket *#%d*", who, id);
+        else
+            msg.setText("*%s* claimed *%s's* ticket *#%d*", who, submitter, id);
+
+        sendMessage(msg);
+    }
+
+    public static void notifyCloseTicket(int id, String who, String submitter)
+    {
+        SlackMessage msg = new SlackMessage();
+        msg.setIcon(who);
+
+        if ( who.equals(submitter) )
+            msg.setText("*%s* closed their own ticket ~*#%d*~", who, id);
+        else
+            msg.setText("*%s* closed *%s's* ticket ~*#%d*~", who, submitter, id);
+
+        sendMessage(msg);
+    }
+
+    public static void notifyCommentTicket(int id, String who, String submitter, String comment)
+    {
+        SlackMessage msg = new SlackMessage();
+        msg.setIcon(who);
+
+        if ( who.equals(submitter) )
+            msg.setText(new String[]
+            {
+                "*%s* commented on their own ticket *#%d*:",
+                "> _%s_"
+            }, who, id, comment);
+        else
+            msg.setText(new String[]
+            {
+                "*%s* commented on *%s's* ticket *#%d*:",
+                "> _%s_"
+            }, who, submitter, id, comment);
+
+        sendMessage(msg);
+    }
+
+    public static void notifyReopenTicket(int id, String who, String submitter)
+    {
+        SlackMessage msg = new SlackMessage();
+        msg.setIcon(who);
+
+        if ( who.equals(submitter) )
+            msg.setText("*%s* re-opened their own ticket *#%d*", who, id);
+        else
+            msg.setText("*%s* re-opened *%s's* ticket *#%d*", who, submitter, id);
 
         sendMessage(msg);
     }

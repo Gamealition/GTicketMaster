@@ -1,5 +1,6 @@
 package me.rafaskb.ticketmaster.commands;
 
+import me.rafaskb.ticketmaster.integrations.Slack;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -111,6 +112,13 @@ public class CommandComment extends Command {
 			if(ownTicket) {
 				CooldownManager.addCooldown(sender.getName(), CooldownType.COMMENT);
 			}
+
+			// Broadcast to slack
+			Slack.notifyCommentTicket(
+				id, sender.getName(),
+				Controller.getTicketSubmitter(id),
+				message
+			);
 			
 			return;
 		}

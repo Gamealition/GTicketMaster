@@ -1,5 +1,6 @@
 package me.rafaskb.ticketmaster.commands;
 
+import me.rafaskb.ticketmaster.integrations.Slack;
 import org.bukkit.command.CommandSender;
 
 import me.rafaskb.ticketmaster.models.TicketComment;
@@ -99,6 +100,9 @@ public class CommandClose extends Command {
 				if(!Utils.sendActionMessage(submitterName, actionMessage))
 					Controller.insertPendingMessage(submitterName, actionMessage);
 			}
+
+			// Broadcast to slack
+			Slack.notifyCloseTicket(id, senderName, submitterName);
 			
 			return;
 		}

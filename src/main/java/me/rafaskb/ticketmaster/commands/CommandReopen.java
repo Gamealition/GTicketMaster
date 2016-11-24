@@ -1,5 +1,6 @@
 package me.rafaskb.ticketmaster.commands;
 
+import me.rafaskb.ticketmaster.integrations.Slack;
 import org.bukkit.command.CommandSender;
 
 import me.rafaskb.ticketmaster.models.TicketComment;
@@ -75,6 +76,9 @@ public class CommandReopen extends Command {
 			String ticketSubmitter = Controller.getTicketSubmitter(id);
 			if(!Utils.sendActionMessage(ticketSubmitter, actionMessage))
 			     Controller.insertPendingMessage(ticketSubmitter, actionMessage);
+
+			// Broadcast to slack
+			Slack.notifyReopenTicket(id, sender.getName(), ticketSubmitter);
 
 			return;
 		}
