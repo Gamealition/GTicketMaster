@@ -1,92 +1,134 @@
 package me.rafaskb.ticketmaster.integrations;
 
+import com.google.gson.Gson;
 import me.rafaskb.ticketmaster.TicketMaster;
+import me.rafaskb.ticketmaster.models.Ticket;
 import me.rafaskb.ticketmaster.utils.ConfigLoader;
 
-
-import java.io.*;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.logging.Logger;
 
-public class Slack {
+/**
+ * Handles broadcasting ticket events to configured Slack webhook
+ * @author Robrotheram
+ * @author RoyCurtis
+ */
+public class Slack
+{
+    private static final Gson gson = new Gson();
 
+    private static class SlackMessage
+    {
+        private String username = "Ticket Master Robot";
+        private String icon_url = "";
+        private String text     = "";
+        SlackMessage() {}
 
-    public static void sendMessage(String message, String username, String world, double x , double z, int id){
+        void setIcon(String who)
+        {
+            icon_url = "https://minotar.net/avatar/" + who + "/100.png";
+        }
 
-        URL url;
-        try {
-            url = new URL(ConfigLoader.getSlackwebhookurl());
+        void setText(String[] msg, Object... parts)
+        {
+            String combined = String.join("\n", msg);
 
-        Map<String,Object> params = new LinkedHashMap<>();
-        params.put("payload", generateMessage(message,username,world,x,z,id) );
+            text = String.format(combined, parts);
+        }
+    }
 
-        StringBuilder postData = new StringBuilder();
-        try {
-            for (Map.Entry<String, Object> param : params.entrySet()) {
+    public static void notifyNewTicket(Ticket ticket)
+    {
+        SlackMessage msg  = new SlackMessage();
+        String[]     text = new String[]
+        {
+            "*%s* created ticket *#%d*:",
+            "> _%s_",
+            "...in world *`%s`* at *`%d %d %d`*" + generateDynmapURL(ticket)
+        };
 
-                if (postData.length() != 0) postData.append('&');
-                postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
-                postData.append('=');
-                postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
-            }
-            byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+        msg.setIcon( ticket.getSubmitter() );
+        msg.setText(text,
+            ticket.getSubmitter(),
+            ticket.getId(),
+            ticket.getMessage(),
+            ticket.getTicketLocation().getWorldName(),
+            (int) ticket.getTicketLocation().getX(),
+            (int) ticket.getTicketLocation().getY(),
+            (int) ticket.getTicketLocation().getZ()
+        );
 
-            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+        sendMessage(msg);
+    }
+
+    private static void sendMessage(SlackMessage msg)
+    {
+        if (!ConfigLoader.slack.enabled)
+            return;
+
+        Logger log = TicketMaster.getInstance().getLogger();
+
+        try
+        {
+            URL    url   = new URL(ConfigLoader.slack.webhookURL);
+            String json  = gson.toJson(msg);
+            byte[] bytes = (
+                "payload=" + URLEncoder.encode(json, "UTF-8")
+            ).getBytes("UTF-8");
+
+            if (ConfigLoader.slack.debug)
+                log.info("Outgoing JSON: " + json);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
+            conn.setRequestProperty("Content-Length", String.valueOf(bytes.length) );
             conn.setDoOutput(true);
-            conn.getOutputStream().write(postDataBytes);
+            conn.getOutputStream().write(bytes);
 
-            // Apparently necessary for post to actually go through
-            Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-            String response = "";
-            for (int c = in.read(); c != -1; c = in.read()) {
-                response += (char) c;
+            try (
+                InputStream       input  = conn.getInputStream();
+                InputStreamReader reader = new InputStreamReader(input, "UTF-8")
+            )
+            {
+                // Apparently necessary for post to actually go through
+                String response = "";
+                for ( int c = reader.read(); c != -1; c = reader.read() )
+                    response += (char) c;
+
+                if (ConfigLoader.slack.debug)
+                    log.info("Slack response: " + response);
             }
-
-            if (ConfigLoader.isSlackDebug()) {
-                TicketMaster.getInstance().getLogger().info("Message from Slack server: " + response);
-            }
-
-        } catch (IOException e) {
-            TicketMaster.getInstance().getLogger().warning("Ticket Master Slack integration IO error:"+e.getMessage());
         }
-        } catch (MalformedURLException e) {
-            TicketMaster.getInstance().getLogger().warning("Ticket Master Slack integration URL error:" +e.getMessage());
+        catch (MalformedURLException e)
+        {
+            log.warning("Slack WebHook URL appears to be wrong!");
+            log.warning( e.toString() );
         }
-
+        catch (Exception e)
+        {
+            log.warning( "Slack error: " + e.toString() );
+        }
     }
 
+    private static String generateDynmapURL(Ticket ticket)
+    {
+        if (ConfigLoader.slack.dynmapURL == null)
+            return "";
 
-    private static String generateMessage(String message, String username, String world, double x , double z, int id){
+        String mapUrl = " - [<%s/?worldname=%s&mapname=flat&zoom=6&x=%d&y=%d&z=%d|Dynmap>]";
 
-        String m = "{";
-        m+= "\"text\":\""+username+" filed ticket #"+id+": "+message+" "+generateDynmapURL(world,x,z)+"\",";
-        m+= "\"username\":\"Ticket Master Bot\",";
-        m+= "\"icon_url\":\"https://minotar.net/avatar/"+username+"/100.png\"";
-        m+= "}";
-
-        if (ConfigLoader.isSlackDebug()) {
-            TicketMaster.getInstance().getLogger().info("Raw outgoing Slack JSON: " + m);
-        }
-        return m;
+        return String.format(mapUrl,
+            ConfigLoader.slack.dynmapURL,
+            ticket.getTicketLocation().getWorldName(),
+            (int) ticket.getTicketLocation().getX(),
+            (int) ticket.getTicketLocation().getY(),
+            (int) ticket.getTicketLocation().getZ()
+        );
     }
-
-    private static String generateDynmapURL(String world, double x , double z){
-        String dynmap = "http://gamealition.com:8123";
-        //check for dynmap link 3 is an arbitary number bad bad me.
-        if(ConfigLoader.getDynmapurl().length()>3){
-            return "<"+dynmap+"/?worldname="+world+"&mapname=flat&zoom=6&x="+x+"&y=64&z="+z+ "|Dynmap Link>";
-        }
-        return "";
-
-
-    }
-
-
 }
