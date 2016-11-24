@@ -102,7 +102,7 @@ public class CommandClose extends Command {
 			}
 
 			// Broadcast to slack
-			Slack.notifyCloseTicket(id, senderName, submitterName);
+			Slack.notifyCloseTicket(id, senderName, submitterName, reason);
 			
 			return;
 		}

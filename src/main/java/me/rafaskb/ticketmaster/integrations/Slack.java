@@ -62,7 +62,7 @@ public class Slack
             "• _To claim:_ `/ticket claim %d`",
             "• _To teleport to:_ `/ticket tp %d`",
             "• _To comment:_ `/ticket comment %d <message>`",
-            "• _To close:_ `/ticket close %d`",
+            "• _To close:_ `/ticket close %d <reason>`",
             "• _There are %d open tickets (including this one)_"
         };
 
@@ -95,15 +95,25 @@ public class Slack
         sendMessage(msg);
     }
 
-    public static void notifyCloseTicket(int id, String who, String submitter)
+    public static void notifyCloseTicket(int id, String who, String submitter, String reason)
     {
         SlackMessage msg = new SlackMessage();
         msg.setIcon(who);
 
+        String text;
         if ( who.equals(submitter) )
-            msg.setText("*%s* closed their own ticket ~*#%d*~", who, id);
+            text = String.format("*%s* closed their own ticket ~*#%d*~", who, id);
         else
-            msg.setText("*%s* closed *%s's* ticket ~*#%d*~", who, submitter, id);
+            text = String.format("*%s* closed *%s's* ticket ~*#%d*~", who, submitter, id);
+
+        if (reason == null)
+            msg.setText(text);
+        else
+            msg.setText(new String[]
+            {
+                text + ":",
+                "> _%s_"
+            }, reason);
 
         sendMessage(msg);
     }
